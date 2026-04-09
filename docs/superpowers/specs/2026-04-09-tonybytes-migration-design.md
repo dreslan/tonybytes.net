@@ -11,7 +11,7 @@ Migrate the personal site from dreslan.com (Jekyll, hosted on `dreslan/dreslan.g
 - Copy all site files from `dreslan.com` repo, excluding: `.git/`, `_site/`, `.jekyll-cache/`, `.obsidian/`, `.claude/`, `.superpowers/`
 - Add `CNAME` file containing `tonybytes.net`
 - Push to GitHub, enable GitHub Pages serving from `main` branch
-- User configures DNS separately (GitHub Pages A records: `185.199.108-111.153`, or CNAME to `dreslan.github.io`)
+- User configures DNS separately — CNAME record pointing `tonybytes.net` to `dreslan.github.io` (GitHub routes to the correct repo based on the CNAME file in the repo)
 
 ## 2. Branding Changes
 

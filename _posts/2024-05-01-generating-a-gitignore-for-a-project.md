@@ -4,8 +4,6 @@ title: "Generating a .gitignore for a Project"
 date: 2024-05-01
 ---
 
-*This post was originally on my old blog, tonybytes, which no longer exists.*
-
 The company **Toptal** runs a wonderful api for **composing** a *.gitignore* on the fly.
 
 By composing, I mean you give it a list of **components** that should be considered, and it generates a *.gitignore* snippet for each and concatenates them into one.

@@ -8,7 +8,7 @@ permalink: "/about/"
 
 Hi, welcome to Tony Bytes — my corner of the internet for commentary on life, society, and the times.
 
-I grew up playing [Diablo II](https://en.wikipedia.org/wiki/Diablo_II) and writing fiction set in its world, hanging out in online guilds under various handles (Tempest was the most common — I even founded a guild called "The Legends of O'nyith," now sadly lost to the internet). The writing habit petered out in the intervening decades, but the urge to put thoughts down never quite went away.
+I grew up playing [Diablo II](https://en.wikipedia.org/wiki/Diablo_II) and writing fiction set in its world, hanging out in online guilds under various handles (Tempest was the most common — I even founded a guild called "The Legends of O'nyith," ~~now sadly lost to the internet~~ [or has it?!](https://onyith.net)). The writing habit petered out in the intervening decades, but the urge to put thoughts down never quite went away.
 
 Offline, I'm a nearly middle-aged Italian guy named Tony, and I have the sterotrypical tendencies to back it up: I can spin pizza dough and make pasta from eggs and flour and am picky about red wines and espresso. 
 

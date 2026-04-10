@@ -47,6 +47,7 @@
   --link-hover: #fabd2f;
   --border: #2e2e2e;
   --toggle-icon: "☀";
+  --stars: url('../images/stars-dark.svg');
 }
 
 [data-theme="light"] {
@@ -59,13 +60,15 @@
   --link-hover: #8f5e0a;
   --border: #ddd;
   --toggle-icon: "●";
+  --stars: url('../images/stars-light.svg');
 }
 
 /* ── Base ── */
 html {
   font-size: 20px;
   line-height: 1.7;
-  background: var(--bg);
+  background: var(--bg) var(--stars) repeat;
+  background-size: 600px 600px;
   color: var(--text);
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;

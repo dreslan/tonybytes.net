@@ -110,7 +110,7 @@ main {
   color: var(--text-heading);
   letter-spacing: -0.02em;
 }
-.site-title-d {
+.site-title-highlight {
   display: inline-flex;
   align-items: center;
   justify-content: center;

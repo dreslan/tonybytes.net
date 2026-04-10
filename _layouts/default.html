@@ -17,7 +17,7 @@
 <body>
   <div class="container">
     <header class="site-header">
-      <a href="{{ '/' | relative_url }}" class="site-title">Tony Bytes</a>
+      <a href="{{ '/' | relative_url }}" class="site-title"><span class="site-title-mark">T</span>ony <span class="glitch-text">Bytes</span></a>
       <nav>
         <a href="{{ '/bytes' | relative_url }}">bytes</a>
         <a href="{{ '/bits' | relative_url }}">bits</a>
@@ -52,6 +52,66 @@
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
     }
+  </script>
+
+  <script>
+  (function() {
+    var link = document.querySelector('.site-title');
+    var el = document.querySelector('.glitch-text');
+    if (!link || !el) return;
+    var original = 'Bytes';
+    var binary = '01011';
+    var animating = false;
+
+    function glitch() {
+      if (animating) return;
+      animating = true;
+      var len = original.length;
+      var step = 0;
+      var current = original.split('');
+
+      var corrupt = setInterval(function() {
+        if (step >= len) {
+          clearInterval(corrupt);
+          return;
+        }
+        current[step] = binary[step];
+        el.textContent = current.join('');
+        step++;
+      }, 60);
+    }
+
+    function restore() {
+      if (!animating) return;
+      var len = original.length;
+      var current = el.textContent.split('');
+      var s = len - 1;
+
+      var rev = setInterval(function() {
+        if (s < 0) {
+          clearInterval(rev);
+          el.textContent = original;
+          animating = false;
+          return;
+        }
+        current[s] = original[s];
+        el.textContent = current.join('');
+        s--;
+      }, 60);
+    }
+
+    link.addEventListener('mouseenter', glitch);
+    link.addEventListener('mouseleave', restore);
+
+    // One-time glitch on load for mobile (no hover available)
+    var isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouch) {
+      setTimeout(function() {
+        glitch();
+        setTimeout(restore, 800);
+      }, 2000);
+    }
+  })();
   </script>
 
   <script>

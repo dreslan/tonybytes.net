@@ -107,11 +107,33 @@ main {
 .site-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--link);
+  color: var(--text-heading);
   letter-spacing: -0.02em;
 }
+.site-title-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6em;
+  height: 1.6em;
+  background: var(--link);
+  color: var(--bg);
+  border-radius: 0.3em;
+  font-size: 1.15em;
+  font-weight: 700;
+  margin-right: 0.15em;
+  vertical-align: baseline;
+  line-height: 1;
+}
 .site-title:hover {
-  color: var(--link-hover);
+  color: var(--link);
+}
+.glitch-text {
+  display: inline-block;
+  min-width: 3.2em;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  letter-spacing: 0.02em;
 }
 
 nav {

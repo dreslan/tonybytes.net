@@ -1,0 +1,18 @@
+services:
+  jekyll:
+    image: ruby:3.3-slim
+    command: >
+      bash -c "
+        bundle install &&
+        bundle exec jekyll serve --host 0.0.0.0 --livereload
+      "
+    ports:
+      - "4000:4000"
+      - "35729:35729"
+    volumes:
+      - .:/srv/jekyll
+      - bundle-cache:/usr/local/bundle
+    working_dir: /srv/jekyll
+
+volumes:
+  bundle-cache:

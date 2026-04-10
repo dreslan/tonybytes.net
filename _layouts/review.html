@@ -1,0 +1,68 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    <span class="review-meta">
+      {{ page.author }}
+      {% if page.status == "now-reading" %}
+      · <span class="now-reading-badge">now reading</span>
+      {% endif %}
+      {% if page.rating %}· {% assign full = page.rating | round %}{% for i in (1..5) %}{% if i <= full %}★{% else %}☆{% endif %}{% endfor %}{% endif %}
+      {% if page.date_read %}· {{ page.date_read | date: "%b %d, %Y" }}{% endif %}
+    </span>
+  </header>
+
+  <div class="book-detail">
+    {% if page.cover %}
+    <img src="{{ page.cover | relative_url }}" alt="Cover of {{ page.title }}" class="review-cover">
+    {% endif %}
+    <div class="book-info">
+      {% if page.pages %}<span class="book-info-item">{{ page.pages }} pages</span>{% endif %}
+      {% if page.publisher %}<span class="book-info-item">{{ page.publisher }}</span>{% endif %}
+      {% if page.first_published %}<span class="book-info-item">First published {{ page.first_published }}</span>{% endif %}
+      {% if page.subjects %}
+      <div class="book-subjects">
+        {% for subject in page.subjects %}
+        <span class="book-subject">{{ subject }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if page.description %}
+  <div class="post-content book-description">
+    <p>{{ page.description }}</p>
+  </div>
+  {% endif %}
+
+  {% assign body = content | strip %}
+  {% if body != "" %}
+  <div class="post-content">
+    <h2>My Review</h2>
+    {{ content }}
+  </div>
+  {% endif %}
+
+  {% assign book_slug = page.url | remove: "/books/" | replace: "/", "" %}
+  {% assign linked_bits = site.bits | where: "book", book_slug %}
+  {% if linked_bits.size > 0 %}
+  <div class="post-content">
+    <h2>Bits</h2>
+    <div class="book-bits">
+      {% for bit in linked_bits %}
+      <a href="{{ bit.url | relative_url }}" class="bit-card">
+        <div class="bit-card-header">
+          <span class="bit-type-badge bit-type-{{ bit.type }}">{{ bit.type }}</span>
+          <span class="bit-card-date">{{ bit.date | date: "%b %d, %Y" }}</span>
+        </div>
+        <span class="bit-card-title">{{ bit.title }}</span>
+        <div class="bit-card-body">{{ bit.content | markdownify | strip_html | strip | truncate: 200 }}</div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</article>

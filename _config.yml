@@ -1,0 +1,32 @@
+title: Dreslan
+description: Personal commentary on life, society, and the times.
+url: https://dreslan.com
+baseurl: ""
+
+permalink: /:year/:month/:day/:title/
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+collections:
+  reviews:
+    output: true
+    permalink: /books/:title/
+  bits:
+    output: true
+    permalink: /bits/:title/
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - scripts
+  - docs
+  - "*.csv"

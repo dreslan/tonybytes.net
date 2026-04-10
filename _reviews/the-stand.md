@@ -1,0 +1,11 @@
+---
+layout: review
+status: read
+title: "The Stand"
+author: "Stephen  King"
+rating: 3
+date_read: 2012-10-07
+cover: "/assets/images/books/the-stand.jpg"
+description: "One man escapes from a biological weapon facility after an accident, carrying with him the deadly virus known as Captain Tripps, a rapidly mutating flu that - in the ensuing weeks - wipes out most of the world's population. In the aftermath, survivors choose between following an elderly black woman to Boulder or the dark man, Randall Flagg, who has set up his command post in Las Vegas. The two factions prepare for a confrontation between the forces of good and evil. ([source][1])     [1]: htt..."
+first_published: "1978"
+---

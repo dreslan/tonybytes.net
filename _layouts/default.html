@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% seo %}
+  <link rel="icon" href="{{ '/favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' | relative_url }}">
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header class="site-header">
+      <a href="{{ '/' | relative_url }}" class="site-title"><span class="site-title-d">D</span><span class="site-title-rest">reslan</span></a>
+      <nav>
+        <a href="{{ '/bytes' | relative_url }}">bytes</a>
+        <a href="{{ '/bits' | relative_url }}">bits</a>
+        <a href="{{ '/projects' | relative_url }}">projects</a>
+        <a href="{{ '/books' | relative_url }}">books</a>
+        <a href="{{ '/about' | relative_url }}">about</a>
+        <button class="theme-toggle" aria-label="Toggle theme" onclick="toggleTheme()">
+          <span class="theme-icon"></span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      {{ content }}
+    </main>
+
+    <footer class="site-footer">
+      <span>&copy; {{ site.time | date: '%Y' }} <a href="{{ '/about' | relative_url }}">Dreslan</a></span>
+      <span class="footer-links">
+        <a href="{{ '/feed.xml' | relative_url }}">rss</a>
+        <a href="https://github.com/dreslan">github</a>
+      </span>
+      <span class="footer-disclaimer">All content is written by a human — possibly reviewed by a Clanker.</span>
+      <span class="footer-license">Blog content licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Fiction is all rights reserved.</span>
+    </footer>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+
+  <script>
+  (function() {
+    var postContent = document.querySelector('.post-content');
+    var pageArticle = document.querySelector('article.page');
+    var content = postContent || pageArticle;
+    if (!content) return;
+
+    var headings = content.querySelectorAll('h2, h3');
+    if (headings.length < 2) return;
+
+    // Build TOC list and add anchor links to headings
+    var tocHtml = '';
+    var texts = [];
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      var text = h.textContent.trim();
+      texts.push(text);
+      if (!h.id) {
+        h.id = text.toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      }
+      var anchor = document.createElement('a');
+      anchor.className = 'heading-anchor';
+      anchor.href = '#' + h.id;
+      anchor.setAttribute('aria-hidden', 'true');
+      anchor.tabIndex = -1;
+      anchor.textContent = '#';
+      h.insertBefore(anchor, h.firstChild);
+      var level = h.tagName === 'H3' ? '3' : '2';
+      tocHtml += '<li><a class="toc-link" data-level="' + level +
+        '" href="#' + h.id + '">' + text + '</a></li>';
+    }
+
+    var listMarkup = '<ul class="toc-list">' + tocHtml + '</ul>';
+
+    // Inline TOC
+    var nav = document.createElement('nav');
+    nav.className = 'toc-nav';
+    nav.setAttribute('aria-label', 'Table of contents');
+    nav.innerHTML = listMarkup;
+    content.insertBefore(nav, headings[0]);
+
+    // Sticky bar for mobile/tablet
+    var bar = document.createElement('div');
+    bar.className = 'toc-bar';
+    bar.innerHTML =
+      '<button class="toc-bar-toggle" aria-expanded="false">' +
+        '<span class="toc-bar-section"></span></button>' +
+      '<nav class="toc-bar-dropdown" aria-label="Table of contents">' + listMarkup + '</nav>';
+    document.body.appendChild(bar);
+
+    var barSection = bar.querySelector('.toc-bar-section');
+    var barToggle = bar.querySelector('.toc-bar-toggle');
+    barToggle.addEventListener('click', function() {
+      var open = bar.classList.toggle('open');
+      barToggle.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', function(e) {
+      if (!bar.contains(e.target)) {
+        bar.classList.remove('open');
+        barToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        bar.classList.remove('open');
+        barToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Scroll to section on TOC click, update URL hash
+    function handleTocClick(e) {
+      var link = e.target.closest('.toc-link');
+      if (!link) return;
+      e.preventDefault();
+      var id = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ block: 'start' });
+        history.replaceState(null, '', '#' + id);
+      }
+      bar.classList.remove('open');
+      barToggle.setAttribute('aria-expanded', 'false');
+    }
+    nav.addEventListener('click', handleTocClick);
+    bar.querySelector('.toc-bar-dropdown').addEventListener('click', handleTocClick);
+
+    // Scroll tracking
+    var inlineLinks = nav.querySelectorAll('.toc-link');
+    var barLinks = bar.querySelectorAll('.toc-bar-dropdown .toc-link');
+
+    function onScroll() {
+      // 80px offset: catch heading slightly before it reaches viewport top
+      var top = window.scrollY + 80;
+      var idx = -1;
+      for (var i = 0; i < headings.length; i++) {
+        if (headings[i].getBoundingClientRect().top + window.scrollY <= top) idx = i;
+      }
+      for (var j = 0; j < inlineLinks.length; j++) {
+        inlineLinks[j].classList.toggle('active', j === idx);
+        barLinks[j].classList.toggle('active', j === idx);
+      }
+      barSection.textContent = idx >= 0 ? texts[idx] : texts[0];
+      bar.classList.toggle('visible', nav.getBoundingClientRect().bottom < 0);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+  </script>
+</body>
+</html>

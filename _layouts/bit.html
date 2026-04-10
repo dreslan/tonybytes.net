@@ -1,0 +1,26 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    <span class="bit-meta">
+      <span class="bit-type-badge bit-type-{{ page.type }}">{{ page.type }}</span>
+      {% if page.source %}· {{ page.source }}{% endif %}
+      · {{ page.date | date: "%b %d, %Y" }}
+    </span>
+  </header>
+
+  {% if page.book %}
+  {% assign linked_book = site.reviews | where_exp: "r", "r.url contains page.book" | first %}
+  {% if linked_book %}
+  <div class="bit-book-link">
+    From <a href="{{ linked_book.url | relative_url }}">{{ linked_book.title }}</a>
+  </div>
+  {% endif %}
+  {% endif %}
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+</article>

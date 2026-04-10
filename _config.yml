@@ -1,6 +1,6 @@
-title: Dreslan
+title: Tony Bytes
 description: Personal commentary on life, society, and the times.
-url: https://dreslan.com
+url: https://tonybytes.net
 baseurl: ""
 
 permalink: /:year/:month/:day/:title/
@@ -29,4 +29,5 @@ exclude:
   - vendor
   - scripts
   - docs
+  - docker-compose.yml
   - "*.csv"

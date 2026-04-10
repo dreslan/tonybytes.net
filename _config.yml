@@ -3,6 +3,12 @@ description: Personal commentary on life, society, and the times.
 url: https://tonybytes.net
 baseurl: ""
 
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/images/og-default.png
+
 permalink: /:year/:month/:day/:title/
 
 markdown: kramdown

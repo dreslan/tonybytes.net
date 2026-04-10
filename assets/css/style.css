@@ -629,6 +629,25 @@ nav a:hover {
   color: var(--text-muted);
 }
 
+.book-search {
+  width: 100%;
+  padding: 0.5em 0.8em;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  outline: none;
+}
+.book-search:focus {
+  border-color: var(--link);
+}
+.book-search::placeholder {
+  color: var(--text-muted);
+}
+
 .book-filters {
   display: flex;
   flex-wrap: wrap;

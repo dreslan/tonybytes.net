@@ -4,6 +4,8 @@ title: Books
 permalink: /books/
 ---
 
+<input type="text" class="book-search" placeholder="Search books..." aria-label="Search books">
+
 <div class="book-filters">
   <button class="book-filter active" data-filter="all">All</button>
   <button class="book-filter" data-filter="now-reading">Now Reading</button>
@@ -69,34 +71,46 @@ permalink: /books/
   var buttons = document.querySelectorAll('.book-filter');
   var cards = document.querySelectorAll('.book-card');
   var shelves = document.querySelectorAll('.book-shelf');
+  var searchInput = document.querySelector('.book-search');
+  var activeFilter = 'all';
+
+  function applyFilters() {
+    var query = searchInput.value.toLowerCase().trim();
+
+    cards.forEach(function(card) {
+      var title = card.querySelector('.book-card-title').textContent.toLowerCase();
+      var author = card.querySelector('.book-card-author').textContent.toLowerCase();
+      var matchesSearch = !query || title.indexOf(query) !== -1 || author.indexOf(query) !== -1;
+
+      var matchesFilter = true;
+      if (activeFilter === 'reviewed') {
+        matchesFilter = card.hasAttribute('data-reviewed');
+      } else if (activeFilter !== 'all') {
+        matchesFilter = card.getAttribute('data-status') === activeFilter;
+      }
+
+      card.style.display = matchesSearch && matchesFilter ? '' : 'none';
+    });
+
+    shelves.forEach(function(shelf) {
+      var visible = shelf.querySelectorAll('.book-card:not([style*="display: none"])');
+      shelf.style.display = visible.length ? '' : 'none';
+      var heading = shelf.previousElementSibling;
+      if (heading && heading.classList.contains('archive-year')) {
+        heading.style.display = visible.length ? '' : 'none';
+      }
+    });
+  }
 
   buttons.forEach(function(btn) {
     btn.addEventListener('click', function() {
       buttons.forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
-      var filter = btn.getAttribute('data-filter');
-
-      cards.forEach(function(card) {
-        if (filter === 'all') {
-          card.style.display = '';
-        } else if (filter === 'reviewed') {
-          card.style.display = card.hasAttribute('data-reviewed') ? '' : 'none';
-        } else if (filter === 'now-reading') {
-          card.style.display = card.getAttribute('data-status') === 'now-reading' ? '' : 'none';
-        } else {
-          card.style.display = card.getAttribute('data-status') === filter ? '' : 'none';
-        }
-      });
-
-      shelves.forEach(function(shelf) {
-        var visible = shelf.querySelectorAll('.book-card:not([style*="display: none"])');
-        shelf.style.display = visible.length ? '' : 'none';
-        var heading = shelf.previousElementSibling;
-        if (heading && heading.classList.contains('archive-year')) {
-          heading.style.display = visible.length ? '' : 'none';
-        }
-      });
+      activeFilter = btn.getAttribute('data-filter');
+      applyFilters();
     });
   });
+
+  searchInput.addEventListener('input', applyFilters);
 })();
 </script>
